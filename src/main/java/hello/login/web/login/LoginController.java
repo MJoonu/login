@@ -125,7 +125,7 @@ public class LoginController {
         //login success TODO
 
         // create session by HTTPSession
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         /**
          * request.getSession(true);
          * 세션이 있으면 기존 세션을 반환

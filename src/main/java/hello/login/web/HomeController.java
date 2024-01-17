@@ -78,9 +78,8 @@ public class HomeController {
             return "home";
         }
 
-
-        // checking saved data  in session manager
-        Member member = (Member) sessionManager.getSession(request);
+        // check member data in HTTPSession
+        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
 
         // there is no member data move to 'home'
         if (member == null) {
