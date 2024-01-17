@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -69,25 +70,41 @@ public class HomeController {
     /**
      * V3
      */
+//    @GetMapping("/")
+//    public String homeLoginV3(HttpServletRequest request, Model model) {
+//
+//        // there is no session page move to 'home'
+//        HttpSession session = request.getSession(false);
+//        if (session == null) {
+//            return "home";
+//        }
+//
+//        // check member data in HTTPSession
+//        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
+//
+//        // there is no member data move to 'home'
+//        if (member == null) {
+//            return "home";
+//        }
+//
+//        // success login
+//        model.addAttribute("member", member);
+//        return "loginHome";
+//    }
+
+    /**
+     * V3 Spring
+     */
     @GetMapping("/")
-    public String homeLoginV3(HttpServletRequest request, Model model) {
+    public String homeLoginV3Spring(@SessionAttribute(name = SessionConst.LOGIN_MEMBER, required = false)
+            Member loginMember,
+            Model model) {
 
-        // there is no session page move to 'home'
-        HttpSession session = request.getSession(false);
-        if (session == null) {
+        if (loginMember == null) {
             return "home";
         }
 
-        // check member data in HTTPSession
-        Member member = (Member) session.getAttribute(SessionConst.LOGIN_MEMBER);
-
-        // there is no member data move to 'home'
-        if (member == null) {
-            return "home";
-        }
-
-        // success login
-        model.addAttribute("member", member);
+        model.addAttribute("member", loginMember);
         return "loginHome";
     }
 }
