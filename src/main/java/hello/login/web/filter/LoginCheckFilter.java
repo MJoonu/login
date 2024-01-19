@@ -15,10 +15,6 @@ public class LoginCheckFilter implements Filter {
 
     private static final String[] whitelist = {"/", "/members/add", "/login", "/logout", "/css/*"};
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init(filterConfig);
-    }
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -54,17 +50,8 @@ public class LoginCheckFilter implements Filter {
 
     }
 
-    @Override
-    public void destroy() {
-        Filter.super.destroy();
-    }
-
-
-
     /**
      * whitelist 인 경우 체크하지 않음
-     * @param requestURI
-     * @return
      */
     private boolean isLoginCheckPath(String requestURI) {
         return !PatternMatchUtils.simpleMatch(whitelist, requestURI);
