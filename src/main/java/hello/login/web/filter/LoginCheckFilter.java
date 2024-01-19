@@ -38,9 +38,8 @@ public class LoginCheckFilter implements Filter {
 
                     return; // 중요! 미인증 사용자는 다음으로 보내지않고 끝내야함.
                 }
-                chain.doFilter(request, response);
             }
-
+            chain.doFilter(request, response);
         } catch (Exception e) {
             throw e; // 예외 로깅도 가능하나, 톰켓으로 예외 보내주기
         } finally {

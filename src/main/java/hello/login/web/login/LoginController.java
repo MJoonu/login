@@ -12,6 +12,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -107,8 +108,53 @@ public class LoginController {
 //        sessionManager.expire(request);
 //        return "redirect:/";
 //    }
+
+
+
+//    @PostMapping("/login")
+//    public String loginV3(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+//
+//        if (bindingResult.hasErrors()) {
+//            return "login/loginForm";
+//        }
+//
+//        Member loginMember = loginService.login(form.getLoginId(), form.getPassword());
+//        log.info("login? {}", loginMember);
+//
+//        if (loginMember == null) {
+//            bindingResult.reject("LoginFail", "아이디 또는 비밀번호가 맞지 않습니다.");
+//            return "login/loginForm";
+//        }
+//
+//        //login success TODO
+//
+//        // create session by HTTPSession
+//        HttpSession session = request.getSession();
+//        /**
+//         * request.getSession(true);
+//         * 세션이 있으면 기존 세션을 반환
+//         * 없으면 새로운 세션 생성 및 반환
+//
+//         * request.getSession(false);
+//         * 세션이 있으면 기존 세션 반환
+//         * 없으면 새로운 세션을 생성하지 않고 null 을 반환
+//         */
+//
+//
+//        // set login member info in session
+//        session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
+//
+//
+//        return "redirect:/";
+//    }
+
+
     @PostMapping("/login")
-    public String loginV3(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult, HttpServletRequest request) {
+    public String loginV4(
+            @Valid @ModelAttribute LoginForm form,
+            BindingResult bindingResult,
+            @RequestParam(defaultValue = "/") String redirectURL,
+            HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             return "login/loginForm";
@@ -126,16 +172,6 @@ public class LoginController {
 
         // create session by HTTPSession
         HttpSession session = request.getSession();
-        /**
-         * request.getSession(true);
-         * 세션이 있으면 기존 세션을 반환
-         * 없으면 새로운 세션 생성 및 반환
-
-         * request.getSession(false);
-         * 세션이 있으면 기존 세션 반환
-         * 없으면 새로운 세션을 생성하지 않고 null 을 반환
-         */
-
 
         // set login member info in session
         session.setAttribute(SessionConst.LOGIN_MEMBER, loginMember);
@@ -143,7 +179,6 @@ public class LoginController {
 
         return "redirect:/";
     }
-
 
     @PostMapping("/logout")
     public String logoutV3(HttpServletRequest request) {
