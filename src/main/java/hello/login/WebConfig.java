@@ -3,6 +3,7 @@ package hello.login;
 import hello.login.web.filter.LogFilter;
 import hello.login.web.filter.LoginCheckFilter;
 import hello.login.web.interceptor.LogInterceptor;
+import hello.login.web.interceptor.LoginCheckInterceptor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -45,6 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        // logInterceptor register
         registry.addInterceptor(new LogInterceptor()) // 인터셉터 등록
                 .order(1) // 인터셉터의호출 순서를 지정, 낮을수록 먼저 호출
                 .addPathPatterns("/**") // 인터셉터를 적용할 URL패턴 지정
@@ -59,5 +61,17 @@ public class WebConfig implements WebMvcConfigurer {
          * {spring:[a-z]+} matches the regexp [a-z]+ as a path variable named "spring" {spring:[a-z]+} regexp [a-z]+ 와 일치하고, "spring" 경로 변수로 캡처
          * {*spring} 경로가 끝날 때 까지 0개 이상의 경로(/)와 일치하고 spring이라는 변수로 캡처
          */
+
+        // loginCheckInterceptor register
+        registry.addInterceptor(new LoginCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/**")
+                .excludePathPatterns("/","/members/add", "/login", "logout"
+                                    ,"/css/**", "/*.ico", "/error");
+
     }
+
+
+
+
 }
